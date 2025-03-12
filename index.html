@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/custom-favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pass-X | पासवर्ड मैनेजर</title>
+    <style>
+      /* फेविकॉन का इनलाइन SVG डेफिनिशन */
+      @media (prefers-color-scheme: light) {
+        :root {
+          --favicon-bg: #138808;
+          --favicon-accent: #FF9933;
+          --favicon-text: #FFFFFF;
+        }
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --favicon-bg: #127507;
+          --favicon-accent: #FF8533;
+          --favicon-text: #E0E0E0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <!-- फेविकॉन SVG -->
+    <svg id="favicon-svg" style="display:none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+      <rect width="32" height="32" rx="6" fill="var(--favicon-bg, #138808)"/>
+      <rect width="32" height="6" rx="2" fill="var(--favicon-accent, #FF9933)"/>
+      <path d="M21 10l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 15.5m0 0l3 3L22 15l-3-3m-3.5 3.5L19 12" 
+        stroke="var(--favicon-text, #FFFFFF)" stroke-width="2" fill="none"/>
+      <text x="16" y="24" fill="var(--favicon-text, #FFFFFF)" text-anchor="middle" font-size="7" font-weight="bold">PX</text>
+    </svg>
+    <script>
+      // SVG को Blob URL में कन्वर्ट करके डायनामिक फेविकॉन बनाएं
+      (function generateDynamicFavicon() {
+        const svgElement = document.getElementById('favicon-svg');
+        if (svgElement) {
+          const svgData = new XMLSerializer().serializeToString(svgElement);
+          const blob = new Blob([svgData], { type: 'image/svg+xml' });
+          const url = URL.createObjectURL(blob);
+          
+          const link = document.querySelector('link[rel="icon"]');
+          if (link) {
+            link.href = url;
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>
