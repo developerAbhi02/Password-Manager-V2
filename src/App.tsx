@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 
 import { ThemeProvider } from './context/ThemeContext';
@@ -8,7 +8,6 @@ import { AuthProvider } from './context/AuthContext';
 import { useAuth } from './context/AuthContext';
 import { useLanguage } from './context/LanguageContext';
 import { ToastProvider, useToast } from './components/Toast';
-import PrivateRoute from './components/PrivateRoute';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
 import Register from './components/Register';

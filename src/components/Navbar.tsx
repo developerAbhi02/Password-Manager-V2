@@ -8,7 +8,7 @@ import Switch from './Switch';
 
 const Navbar: React.FC = () => {
   const { user, logout } = useAuth();
-  const { theme, toggleTheme, isDark, colors } = useTheme();
+  const { toggleTheme, isDark, colors } = useTheme();
   const { language, setLanguage, t } = useLanguage();
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);

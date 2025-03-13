@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import axios from 'axios';
 
 // API बेस URL
-const API_URL = 'http://localhost:5002/api';
+const API_URL = 'https://password-manager-v2.onrender.com/api';
 
 // उपयोगकर्ता टाइप
 interface User {

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { PasswordEntry } from '../types';
 
-const API_URL = 'http://localhost:5002/api';
+const API_URL = 'https://password-manager-v2.onrender.com/api';
 
 // किसी भी अनुरोध के लिए टोकन सेट करने वाला इंटरसेप्टर जोड़ें
 axios.interceptors.request.use(
