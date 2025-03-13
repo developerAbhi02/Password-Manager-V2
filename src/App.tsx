@@ -233,7 +233,14 @@ function AppContent() {
           message={t('confirmDeleteMessage')}
         />
 
-        <footer>
+        <footer style={{
+          marginTop: 'auto',
+          padding: '1rem 0',
+          textAlign: 'center',
+          color: 'var(--text-muted)',
+          fontSize: '0.9rem',
+          borderTop: '1px solid var(--border-color)'
+        }}>
           <p>&copy; {new Date().getFullYear()} Pass-X - {t('securePasswords')}</p>
         </footer>
       </main>

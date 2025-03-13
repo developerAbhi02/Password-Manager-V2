@@ -531,6 +531,147 @@ footer {
   .cancel-btn, .submit-btn {
     width: 100%;
   }
+  
+  /* डैशबोर्ड रेस्पॉन्सिवनेस */
+  .dashboard-container {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .sidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.5rem 0;
+  }
+  
+  .sidebar-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0.5rem;
+  }
+  
+  .sidebar-nav-item {
+    width: auto;
+    margin: 0.3rem;
+    padding: 0.5rem 1rem;
+    justify-content: center;
+  }
+  
+  .main-content {
+    padding: 15px;
+  }
+  
+  .auth-form {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  /* टैबलेट और फोन पर मॉडल और फॉर्म्स */
+  .modal-content {
+    width: 95%;
+    padding: 1rem;
+  }
+  
+  /* मोबाइल पर फॉर्म फील्ड्स */
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 0.7rem;
+    font-size: 16px; /* मोबाइल पर फोन्ट ज़ूमिंग से बचने के लिए */
+  }
+  
+  /* पासवर्ड चेकअप आइटम्स */
+  .password-item-checkup {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .password-item-checkup > div:last-child {
+    margin-top: 0.5rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+/* अतिरिक्त रेस्पॉन्सिवनेस - अति छोटे मोबाइल (320px से 480px) */
+@media (max-width: 480px) {
+  .navbar-controls {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .switch-group {
+    flex: 1;
+    justify-content: center;
+  }
+  
+  .navbar-links {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+  
+  .app {
+    padding: 0.5rem;
+  }
+  
+  .page-title {
+    font-size: 1.2rem;
+  }
+  
+  .password-item {
+    padding: 1rem;
+  }
+  
+  .password-actions {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  
+  .password-actions button {
+    width: 100%;
+  }
+  
+  .modal-content {
+    padding: 0.8rem;
+  }
+  
+  /* बटन्स को विशेष रूप से मोबाइल-फ्रेंडली बनाना */
+  button, .auth-link, .edit-btn, .delete-btn, .update-btn {
+    padding: 0.7rem !important;
+    min-height: 44px; /* टच टार्गेट्स के लिए एक्सेसिबिलिटी मानक */
+  }
+  
+  /* छोटे स्क्रीन पर स्क्रॉलिंग के लिए फिक्स्ड हाइट का उपयोग न करें */
+  .auth-form, .password-form-container {
+    max-height: none;
+  }
+}
+
+/* लैंडस्केप मोड - परिदृश्य स्थिति */
+@media (max-height: 500px) and (orientation: landscape) {
+  .dashboard-container {
+    flex-direction: row;
+  }
+  
+  .sidebar {
+    width: 200px;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  
+  .sidebar-nav {
+    display: block;
+  }
+  
+  .auth-form {
+    max-height: 85vh;
+    overflow-y: auto;
+  }
 }
 
 /* एनिमेशन */
@@ -557,6 +698,7 @@ footer {
   display: flex;
   height: 100vh;
   overflow: hidden;
+  position: relative;
 }
 
 .sidebar {
@@ -567,6 +709,16 @@ footer {
   flex-direction: column;
   padding: 20px 0;
   overflow-y: auto;
+  z-index: 900;
+  transition: all 0.3s ease;
+}
+
+.sidebar-toggle {
+  transition: all 0.3s ease;
+}
+
+.sidebar-toggle:hover {
+  transform: scale(1.1);
 }
 
 .sidebar-nav {
@@ -583,7 +735,7 @@ footer {
   display: flex;
   align-items: center;
   color: var(--text-color);
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, transform 0.2s;
 }
 
 .sidebar-nav-item.active {
@@ -594,10 +746,15 @@ footer {
 
 .sidebar-nav-item:hover:not(.active) {
   background-color: var(--nav-hover-bg, rgba(138, 180, 248, 0.08));
+  transform: translateY(-2px);
 }
 
 .sidebar-nav-item svg {
   margin-right: 12px;
+}
+
+.sidebar-nav-item .badge {
+  margin-left: auto;
 }
 
 .main-content {
@@ -606,6 +763,46 @@ footer {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+}
+
+/* टच फ्रेंडली बटन्स */
+button, .sidebar-nav-item, .auth-link {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent; /* मोबाइल पर टैप हाइलाइट हटाएँ */
+}
+
+input, select, textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* स्क्रॉल इंप्रूवमेंट्स */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 20px;
+  border: 2px solid transparent;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-muted);
+}
+
+/* मोबाइल पर स्क्रॉलबार छिपाएँ */
+@media (max-width: 768px) {
+  .sidebar::-webkit-scrollbar,
+  .main-content::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
 }
 
 .page-header {

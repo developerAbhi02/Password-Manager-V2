@@ -10,6 +10,23 @@ const Sidebar: React.FC = () => {
   const location = useLocation();
   const currentPath = location.pathname;
   const [issueCount, setIssueCount] = useState<number | null>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  // मोबाइल व्यू डिटेक्शन
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      if (window.innerWidth > 768) {
+        setIsOpen(true);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // प्रारंभ में सेट करें
+    
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // पासवर्ड जांच के मुद्दे लोड करें
   useEffect(() => {
@@ -39,6 +56,19 @@ const Sidebar: React.FC = () => {
     const interval = setInterval(loadSecurityIssues, 5 * 60 * 1000);
     return () => clearInterval(interval);
   }, []);
+
+  // मोबाइल पर साइडबार टॉगल करें
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
+  // नेविगेशन हैंडलर
+  const handleNavigation = (path: string) => {
+    navigate(path);
+    if (isMobile) {
+      setIsOpen(false);
+    }
+  };
 
   // ऐप लोगो और नेविगेशन आइटम्स
   const navItems = [
@@ -77,39 +107,92 @@ const Sidebar: React.FC = () => {
     }
   ];
 
-  return (
-    <div className="sidebar">
-      <div style={{ padding: '10px 20px', marginBottom: '20px' }}>
-        <h2 style={{ display: 'flex', alignItems: 'center' }}>
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            width="24" 
-            height="24" 
-            viewBox="0 0 24 24" 
-            fill="var(--primary-color)" 
-            style={{ marginRight: '10px' }}
-          >
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/>
-            <path d="M10.3 5.7l1.4 1.4L8.8 10l3 3-1.4 1.4-4.4-4.4z"/>
-          </svg>
-          Pass-X
-        </h2>
-      </div>
+  // हैमबर्गर मेनू आइकन
+  const HamburgerIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  );
 
-      <ul className="sidebar-nav">
-        {navItems.map(item => (
-          <li
-            key={item.id}
-            className={`sidebar-nav-item ${currentPath === item.path ? 'active' : ''}`}
-            onClick={() => navigate(item.path)}
-          >
-            {item.icon}
-            <span>{item.label}</span>
-            {item.badge && <span className="badge">{item.badge}</span>}
-          </li>
-        ))}
-      </ul>
-    </div>
+  // बंद करने का आइकन
+  const CloseIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  );
+
+  return (
+    <>
+      {/* मोबाइल टॉगल बटन */}
+      {isMobile && (
+        <button 
+          className="sidebar-toggle" 
+          onClick={toggleSidebar}
+          style={{
+            position: 'fixed',
+            top: '10px',
+            left: '10px',
+            zIndex: 1100,
+            background: 'var(--primary-color)',
+            color: 'white',
+            border: 'none',
+            borderRadius: '50%',
+            width: '40px',
+            height: '40px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: 'var(--shadow)',
+            cursor: 'pointer'
+          }}
+        >
+          {isOpen ? <CloseIcon /> : <HamburgerIcon />}
+        </button>
+      )}
+
+      {/* साइडबार */}
+      <div 
+        className="sidebar" 
+        style={{ 
+          display: isMobile && !isOpen ? 'none' : 'flex',
+          transition: 'all 0.3s ease'
+        }}
+      >
+        <div style={{ padding: '10px 20px', marginBottom: '20px' }}>
+          <h2 style={{ display: 'flex', alignItems: 'center' }}>
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              width="24" 
+              height="24" 
+              viewBox="0 0 24 24" 
+              fill="var(--primary-color)" 
+              style={{ marginRight: '10px' }}
+            >
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/>
+              <path d="M10.3 5.7l1.4 1.4L8.8 10l3 3-1.4 1.4-4.4-4.4z"/>
+            </svg>
+            Pass-X
+          </h2>
+        </div>
+
+        <ul className="sidebar-nav">
+          {navItems.map(item => (
+            <li
+              key={item.id}
+              className={`sidebar-nav-item ${currentPath === item.path ? 'active' : ''}`}
+              onClick={() => handleNavigation(item.path)}
+            >
+              {item.icon}
+              <span>{item.label}</span>
+              {item.badge && <span className="badge">{item.badge}</span>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
   );
 };
 
