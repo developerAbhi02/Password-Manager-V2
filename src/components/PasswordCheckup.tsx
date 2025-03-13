@@ -19,7 +19,6 @@ const PasswordCheckup: React.FC<PasswordCheckupProps> = ({ onEdit }) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [checkupResult, setCheckupResult] = useState<PasswordCheckResult | null>(null);
-  const [passwords, setPasswords] = useState<PasswordEntry[]>([]);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [selectedPassword, setSelectedPassword] = useState<PasswordEntry | null>(null);
   const [newPassword, setNewPassword] = useState('');
@@ -41,7 +40,6 @@ const PasswordCheckup: React.FC<PasswordCheckupProps> = ({ onEdit }) => {
     }
     try {
       const data = await fetchPasswords();
-      setPasswords(data);
       
       if (data.length > 0) {
         const result = analyzePasswords(data);
