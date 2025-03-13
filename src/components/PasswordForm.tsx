@@ -31,7 +31,7 @@ const CATEGORIES = [
 
 const PasswordForm: React.FC<PasswordFormProps> = ({ initialData, onSubmit, onCancel }) => {
   const { t } = useLanguage();
-  const { isDark, colors } = useTheme();
+  const { colors } = useTheme();
   const [formData, setFormData] = useState({
     title: '',
     username: '',
